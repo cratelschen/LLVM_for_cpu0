@@ -11,6 +11,7 @@
 #### 1. 基本介绍
 
 * 32 位 RISC 架构；
+
 * 16 个通用寄存器，R0 到 R15；
   * R0 是常数 0 寄存器（CR, Constant Register）；
   * R1-R10 是通用寄存器（GPR, General Purpose Register）；
@@ -19,15 +20,17 @@
   * R13 是栈指针寄存器（SP, Stack Pointer register）
   * R14 是链接寄存器（LR, Link Register）
   * R15 是状态字寄存器（SW, Status Word register）
+
 * 协处理寄存器，PC 和 EPC；
   * PC 是程序计数器（Program Counter）
   * EPC 是错误计数器（Error Program Counter）
+
 * 其他寄存器；
   * IR 是指令寄存器（Instruction Register）
   * MAR 是内存地址寄存器（Memory Address Register）
   * MDR 是内存数据寄存器（Memory Data Register）
   * HI 是 MULT 指令的结果的高位存储（HIgh part）
-  * Lo 是 MULT 指令的结果的低位存储（LOw part）
+  * LO 是 MULT 指令的结果的低位存储（LOw part）
 
 #### 2. 指令集
 
@@ -38,6 +41,7 @@
   | 操作码编码 OP | 返回寄存器编码 Ra | 输入寄存器编码 Rb | 输入寄存器编码 Rc | 辅助操作编码 Cx |
   | :--- | :--- | :--- | :--- | :--- |
   | 31-24 | 23-20 | 19-16 | 15-12 | 11-0 |
+  > 通用寄存器只有16个，因此寄存器地址只需要四位就够了。
 
 * L 型：
 
@@ -52,6 +56,7 @@
   | 31-24 | 23-0 |
 
 具体支持的指令和涵义，我这里暂时先不抄了，感兴趣的朋友可以到：[http://ccckmit.wikidot.com/ocs:cpu0](http://ccckmit.wikidot.com/ocs:cpu0) 查看。
+![alt text](image.png)
 
 我们这个教程中支持的 Cpu0 架构有两款处理器，所以会对应两款不同的 ISA （Instruction Set），第一套叫 cpu032I，第二套是在第一套的基础上新增了几条指令，叫 cpu032II。cpu032I 中的比较指令继承自 ARM 的 CMP，而 cpu032II 中的比较指令新增了继承自 Mips 的 SLT，BEQ 等指令。设计两套处理器，我们就会涉及到后端 Subtarget 的设计。具体新增了哪些指令，也可以在上边链接中查看。
 
@@ -332,4 +337,3 @@ Assertion 'target.get() && "Could not allocate target machine!"' failed
 ```
 
 一个 assert 阻止了异常操作。这里报错是正常的，毕竟我们后端啥都没做呢，没那么轻松就能生成汇编，看到这个提示，这一章的验证就结束了。在下一章，我们会解决这个问题，并能正常输出简单程序的汇编文件。
-
